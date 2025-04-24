@@ -112,3 +112,28 @@ CREATE TABLE ATTENDEE(
         (Is_Actor = 0 AND Total_Acted = 0)
     )
 )
+CREATE TABLE Movie_participant(
+    M_ID INT NOT NULL,
+    P_ID INT NOT NULL,
+    PRIMARY KEY(M_ID, P_ID),
+    CONSTRAINT fk_m_parti_movie FOREIGN KEY(M_ID)
+                                REFERENCES Movie(ID)
+                                ON DELETE CASCADE,
+    CONSTRAINT fk_m_parti_attendee FOREIGN KEY(P_ID)
+                                REFERENCES ATTENDEE(ID)
+                                ON DELETE CASCADE
+)
+CREATE TABLE Movie_review_by_user(
+    U_ID INT NOT NULL,
+    M_ID INT NOT NULL,
+    PRIMARY KEY(U_ID, M_ID),
+    Details VARCHAR(200),
+    Score INT NOT NULL,
+    POST_date DATE NOT NULL
+    CONSTRAINT fk_mov_rev_u_user FOREIGN KEY(U_ID)
+                                    REFERENCES W_USER(ID)
+                                    ON DELETE NO ACTION,
+    CONSTRAINT fk_mov_rev_u_movie FOREIGN KEY(M_ID)
+                                    REFERENCES Movie(ID)
+                                    ON DELETE CASCADE
+)
