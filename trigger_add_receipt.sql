@@ -9,7 +9,7 @@ BEGIN
         FROM inserted i
         JOIN W_USER w
         ON i.S_ID = w.ID
-        WHERE w.S_FLAG != 1
+        WHERE w.S_FLAG != 1 OR w.S_FLAG IS NULL
     )
     BEGIN
         RAISERROR ('S_ID must reference a W_USER row with S_FLAG = 1', 16, 1);
