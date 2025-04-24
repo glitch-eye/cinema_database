@@ -38,9 +38,13 @@ CREATE TABLE Movie(
     SUB_language CHAR(10),
     DUB_language CHAR(10) NOT NULL,
     Age_restrict_tag CHAR(10),
+    Previous_ID INT,
     CONSTRAINT fk_movie_restrict_age FOREIGN KEY(Age_restrict_tag)
-                                        REFERENCES AGE_RESTRICT(TAG)
-                                        ON DELETE SET NULL
+                                    REFERENCES AGE_RESTRICT(TAG)
+                                    ON DELETE SET NULL,
+    CONSTRAINT fk_previous_part FOREIGN KEY(Previous_ID)
+                                REFERENCES Movie(ID)
+                                ON DELETE SET NULL
 )
 CREATE TABLE EVENT(
     E_NAME CHAR(10) PRIMARY KEY,
@@ -75,26 +79,7 @@ CREATE TABLE Movie_Genre(
         REFERENCES GENRE(G_name) -- Links to Genre table
         ON DELETE CASCADE
 )
-CREATE TABLE SERI(
-    M_ID_1 INT NOT NULL,
-    M_ID_2 INT NOT NULL,
-    PRIMARY KEY(M_ID_1, M_ID_2),
-    CONSTRAINT chk_SERI_no_self_relationship CHECK (M_ID_1 != M_ID_2),
-    CONSTRAINT fk_seri_m_1 FOREIGN KEY (M_ID_1)
-        REFERENCES MOVIE(ID)       -- Links to Movie table
-        ON DELETE NO ACTION,
-    CONSTRAINT fk_seri_m_2 FOREIGN KEY (M_ID_2)
-        REFERENCES MOVIE(ID) -- Links to Genre table
-        ON DELETE NO ACTION
-)
--- ở đây là seri nên khi có 3 phim trong seri thì ta có sample table
--- ID_1       |ID_2
--- 1          |2
--- 1          |3
--- 2          |1
--- 2          |3
--- 3          |1
--- 3          |2
+
 CREATE TABLE ATTENDEE(
     ID INT PRIMARY KEY,
     P_NAME VARCHAR(50) NOT NULL,
