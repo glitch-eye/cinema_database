@@ -1,0 +1,10 @@
+-- USE TEST
+CREATE TRIGGER trg_Delete_PreviousID
+ON Movie
+AFTER DELETE
+AS
+BEGIN
+    UPDATE Movie
+    SET Previous_ID = NULL
+    WHERE Previous_ID IN (SELECT ID FROM DELETED);
+END;

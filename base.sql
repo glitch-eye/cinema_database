@@ -40,11 +40,12 @@ CREATE TABLE Movie(
     Age_restrict_tag CHAR(10),
     Previous_ID INT,
     CONSTRAINT fk_movie_restrict_age FOREIGN KEY(Age_restrict_tag)
-                                    REFERENCES AGE_RESTRICT(TAG)
-                                    ON DELETE SET NULL,
-    CONSTRAINT fk_previous_part FOREIGN KEY(Previous_ID)
+                                REFERENCES AGE_RESTRICT(TAG)
+                                ON DELETE SET NULL,
+    CONSTRAINT fk_previous_part FOREIGN KEY (Previous_ID)
                                 REFERENCES Movie(ID)
-                                ON DELETE SET NULL
+                                ON UPDATE NO ACTION
+                                ON DELETE NO ACTION
 )
 CREATE TABLE EVENT(
     E_NAME CHAR(10) PRIMARY KEY,
