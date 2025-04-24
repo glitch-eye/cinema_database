@@ -80,14 +80,7 @@ CREATE TABLE Movie_Genre(
         REFERENCES GENRE(G_name) -- Links to Genre table
         ON DELETE CASCADE
 )
--- ở đây là seri nên khi có 3 phim trong seri thì ta có sample table
--- ID_1       |ID_2
--- 1          |2
--- 1          |3
--- 2          |1
--- 2          |3
--- 3          |1
--- 3          |2
+
 CREATE TABLE ATTENDEE(
     ID INT PRIMARY KEY,
     P_NAME VARCHAR(50) NOT NULL,
