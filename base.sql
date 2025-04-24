@@ -17,15 +17,15 @@ CREATE TABLE Theatre(
                             ON DELETE CASCADE
 )
 
-INSERT INTO Cinema (ID, C_Name, C_Status, C_location) VALUES
-(1, 'Central Cineplex', 'Active', 'Downtown'),
-(2, 'Grand Theatre', 'Active', 'Uptown'),
-(3, 'Movie World', 'Closed', 'City Center');
+-- INSERT INTO Cinema (ID, C_Name, C_Status, C_location) VALUES
+-- (1, 'Central Cineplex', 'Active', 'Downtown'),
+-- (2, 'Grand Theatre', 'Active', 'Uptown'),
+-- (3, 'Movie World', 'Closed', 'City Center');
 
-INSERT INTO Theatre (ID, Size_Type, Capacity, C_ID) VALUES
-(101, 'L', 250, 1),  -- Linked to 'Central Cineplex'
-(102, 'S', 100, 2),  -- Linked to 'Grand Theatre'
-(103, 'M', 150, 3);  -- Linked to 'Movie World'
+-- INSERT INTO Theatre (ID, Size_Type, Capacity, C_ID) VALUES
+-- (101, 'L', 250, 1),  -- Linked to 'Central Cineplex'
+-- (102, 'S', 100, 2),  -- Linked to 'Grand Theatre'
+-- (103, 'M', 150, 3);  -- Linked to 'Movie World'
 CREATE TABLE AGE_RESTRICT(
     TAG CHAR(10) PRIMARY KEY,
     Age_permit INT NOT NULL
