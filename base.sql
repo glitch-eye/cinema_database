@@ -56,7 +56,7 @@ CREATE TABLE W_USER(
     P_number INT NOT NULL,
     S_FLAG BIT,
     CONSTRAINT chk_birth_date CHECK (
-        DATEDIFF(YEAR, Birth_Date, GETDATE()) >= 12
+        DATEDIFF(YEAR, B_Date, GETDATE()) >= 12
     )
 )
 
