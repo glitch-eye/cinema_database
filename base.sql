@@ -54,7 +54,10 @@ CREATE TABLE W_USER(
     U_LOCATION VARCHAR(20),
     B_Date DATE NOT NULL,
     P_number INT NOT NULL,
-    S_FLAG BIT
+    S_FLAG BIT,
+    CONSTRAINT chk_birth_date CHECK (
+        DATEDIFF(YEAR, Birth_Date, GETDATE()) >= 12
+    )
 )
 
 CREATE TABLE GENRE(
