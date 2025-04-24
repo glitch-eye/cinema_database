@@ -137,3 +137,15 @@ CREATE TABLE Movie_review_by_user(
                                     REFERENCES Movie(ID)
                                     ON DELETE CASCADE
 )
+CREATE TABLE ACCOUNT(
+    ID INT PRIMARY KEY,
+    A_NAME VARCHAR(50) NOT NULL,
+    A_Address VARCHAR(50) NOT NULL,
+    A_B_Date DATE,
+    Phone_number VARCHAR(10) NOT NULL,
+    Is_Employee BIT DEFAULT 0,
+    CONSTRAINT chk_acc_total CHECK (
+        (GETDATE()-YEAR(A_B_Date)>=12)
+        -- can't buy and review films
+    ) 
+)
