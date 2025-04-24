@@ -137,3 +137,48 @@ CREATE TABLE Movie_review_by_user(
                                     REFERENCES Movie(ID)
                                     ON DELETE CASCADE
 )
+CREATE TABLE Screening(
+    M_ID INT NOT NULL,
+    T_ID INT NOT NULL,
+    DATE_of_screening DATE NOT NULL,
+    Time_of_srceening TIME NOT NULL,
+    PRIMARY KEY(M_ID, T_ID, DATE_of_screening, Time_of_srceening),
+    CONSTRAINT fk_screeninng_movie FOREIGN KEY(M_ID)
+                                    REFERENCES Movie(ID)
+                                    ON DELETE CASCADE,
+    CONSTRAINT fk_screeninng_Theatre FOREIGN KEY(T_ID)
+                                    REFERENCES Theatre(ID)
+                                    ON DELETE CASCADE
+)
+CREATE TABLE SEAT(
+    T_ID INT NOT NULL,
+    ID INT NOT NULL,
+    PRIMARY KEY(T_ID, ID),
+    S_Type Char(1) DEFAULT 'N',
+    Mutiplier_val INT DEFAULT 1,
+    CONSTRAINT fk_SEAT_theatre FOREIGN KEY(T_ID)
+                                REFERENCES Theatre(ID)
+                                ON DELETE CASCADE,
+    CONSTRAINT chk_S_Type_Mutiplier_val CHECK (
+        (S_Type IN ('D', 'V') AND Mutiplier_val > 1)
+        OR (S_Type NOT IN ('D', 'V'))
+    )
+)
+CREATE TABLE EventDetails (
+    Cinema_ID INT NOT NULL,
+    Name_event CHAR(10) NOT NULL,
+    PRIMARY KEY (Cinema_ID, Name_event),
+    CONSTRAINT fk_Cinema FOREIGN KEY (Cinema_ID)
+        REFERENCES Cinema(ID),
+    CONSTRAINT fk_Event FOREIGN KEY (Name_event)
+        REFERENCES EVENT(E_NAME)
+)
+CREATE TABLE receipt (
+    Receipt_ID INT PRIMARY KEY, 
+    S_ID INT NULL, -- ID from W_USER
+    Receipt_Date DATETIME, 
+    Type_of_method CHAR(1) NOT NULL,
+    CONSTRAINT fk_receipt_user FOREIGN KEY (S_ID)
+        REFERENCES W_USER(ID)
+        ON DELETE SET NULL
+)

@@ -1,0 +1,16 @@
+# MSSQL Trigger for Enforcing Conditions on the Receipt Table
+
+This README explains how to work with the `trg_check_S_flag` trigger in the `receipt` table, specifically enforcing conditions on `S_ID` to reference rows in `W_USER` with `S_FLAG = 1`.
+(or other trigger)
+## Pre-requisites
+Before creating or commenting the creating trigger, ensure that you are working within the **`TEST`** database.
+
+## Instructions
+### 1. Run base.sql to create database TEST, USE TEST and create tables for database
+
+### 2. Switch to the `TEST` Database
+Before performing any operations, execute the following command:
+```sql
+USE TEST;
+
+### 3. Then comment USE TEST to create trigger

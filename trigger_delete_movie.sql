@@ -1,3 +1,4 @@
+-- USE TEST
 CREATE TRIGGER trg_delete_seri_references
 ON Movie
 AFTER DELETE
