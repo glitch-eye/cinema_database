@@ -190,7 +190,7 @@ CREATE TABLE FOODS_DRINKS (
 )
 CREATE TABLE GAMES (
     G_ID INT PRIMARY KEY,
-    G_Type CHAR(1) DEFAULT "G",
+    G_Type CHAR(1) DEFAULT 'G',
     CONSTRAINT G_ser_id FOREIGN KEY (G_ID)
         REFERENCES SERVICES(Service_ID)
         ON DELETE CASCADE
@@ -220,7 +220,7 @@ CREATE TABLE Service_cost (
     Amount INT NOT NULL,
     PRIMARY KEY (Ser_Bou_ID,Tran_ID),
     CONSTRAINT Services_Bought FOREIGN KEY (Ser_Bou_ID)
-        REFERENCES SERVICES(ID),
+        REFERENCES SERVICES(Service_ID),
     CONSTRAINT Transactions FOREIGN KEY (Tran_ID)
         REFERENCES Receipt(Receipt_ID)
 )
@@ -235,13 +235,13 @@ CREATE TABLE TICKET (
         REFERENCES Movie(ID),
     CONSTRAINT Tic_4_Room FOREIGN KEY (Room_ID)
         REFERENCES Theatre(ID),
-    CONSTRAINT Tic_4_Chair FOREIGN KEY (Chair_ID)
-        REFERENCES SEAT(T_ID)
+    CONSTRAINT Tic_4_Chair FOREIGN KEY (Chair_ID,Room_ID)
+        REFERENCES SEAT(T_ID, ID)
 )
 CREATE TABLE Ticket_Discount (
     Event_Name CHAR(10) NOT NULL,
     Tic_ID INT NOT NULL,
-    T_Type CHAR(1) DEFAULT "T",
+    T_Type CHAR(1) DEFAULT 'T',
     T_Value INT NOT NULL,
     CONSTRAINT Dis_Events FOREIGN KEY (Event_Name)
         REFERENCES EVENT(E_Name)
@@ -253,12 +253,12 @@ CREATE TABLE Ticket_Discount (
 CREATE TABLE Services_Discount (
     Event_Name CHAR(10) NOT NULL,
     Serv_ID INT NOT NULL,
-    S_Type CHAR(1) DEFAULT "S",
+    S_Type CHAR(1) DEFAULT 'P',
     S_Value INT NOT NULL,
-    CONSTRAINT Dis_Events FOREIGN KEY (Event_Name)
+    CONSTRAINT SER_Dis_Events FOREIGN KEY (Event_Name)
         REFERENCES EVENT(E_Name)
         ON DELETE CASCADE,
     CONSTRAINT Dis_Services FOREIGN KEY (Serv_ID)
-        REFERENCES SERVICES(SERV_ID)
+        REFERENCES SERVICES(Service_ID)
         ON DELETE CASCADE
 )
