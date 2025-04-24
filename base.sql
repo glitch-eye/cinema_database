@@ -142,6 +142,7 @@ CREATE TABLE SEAT(
     PRIMARY KEY(T_ID, ID),
     S_Type Char(1) DEFAULT 'N',
     Mutiplier_val INT DEFAULT 1,
+    Status_ CHAR(1) DEFAULT 'A',
     CONSTRAINT fk_SEAT_theatre FOREIGN KEY(T_ID)
                                 REFERENCES Theatre(ID)
                                 ON DELETE CASCADE,
