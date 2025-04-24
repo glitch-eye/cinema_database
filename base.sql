@@ -40,12 +40,12 @@ CREATE TABLE Movie(
     Age_restrict_tag CHAR(10),
     Previous_ID INT,
     CONSTRAINT fk_movie_restrict_age FOREIGN KEY(Age_restrict_tag)
-                                REFERENCES AGE_RESTRICT(TAG)
-                                ON DELETE SET NULL,
-    CONSTRAINT fk_previous_part FOREIGN KEY (Previous_ID)
-                                REFERENCES Movie(ID)
-                                ON UPDATE NO ACTION
-                                ON DELETE NO ACTION
+        REFERENCES AGE_RESTRICT(TAG)
+        ON DELETE SET NULL,
+     CONSTRAINT fk_previous_part FOREIGN KEY (Previous_ID)
+        REFERENCES Movie(ID)
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 )
 CREATE TABLE EVENT(
     E_NAME CHAR(10) PRIMARY KEY,
@@ -80,7 +80,14 @@ CREATE TABLE Movie_Genre(
         REFERENCES GENRE(G_name) -- Links to Genre table
         ON DELETE CASCADE
 )
-
+-- ở đây là seri nên khi có 3 phim trong seri thì ta có sample table
+-- ID_1       |ID_2
+-- 1          |2
+-- 1          |3
+-- 2          |1
+-- 2          |3
+-- 3          |1
+-- 3          |2
 CREATE TABLE ATTENDEE(
     ID INT PRIMARY KEY,
     P_NAME VARCHAR(50) NOT NULL,
@@ -159,7 +166,7 @@ CREATE TABLE EventDetails (
     CONSTRAINT fk_Event FOREIGN KEY (Name_event)
         REFERENCES EVENT(E_NAME)
 )
-CREATE TABLE receipt (
+CREATE TABLE Receipt (
     Receipt_ID INT PRIMARY KEY, 
     S_ID INT NULL, -- ID from W_USER
     Receipt_Date DATETIME, 
@@ -167,4 +174,91 @@ CREATE TABLE receipt (
     CONSTRAINT fk_receipt_user FOREIGN KEY (S_ID)
         REFERENCES W_USER(ID)
         ON DELETE SET NULL
+)
+
+CREATE TABLE SERVICES (
+    Service_ID INT PRIMARY KEY,
+    Price INT NOT NULL
+)
+CREATE TABLE FOODS_DRINKS (
+    FD_ID INT PRIMARY KEY,
+    FD_Name VARCHAR(50) NOT NULL,
+    Portion INT NOT NULL
+    CONSTRAINT FD_ser_id FOREIGN KEY (FD_ID)
+        REFERENCES SERVICES(Service_ID)
+        ON DELETE CASCADE
+)
+CREATE TABLE GAMES (
+    G_ID INT PRIMARY KEY,
+    G_Type CHAR(1) DEFAULT "G",
+    CONSTRAINT G_ser_id FOREIGN KEY (G_ID)
+        REFERENCES SERVICES(Service_ID)
+        ON DELETE CASCADE
+)
+CREATE TABLE Services_time (
+    Sell_ID INT NOT NULL,
+    Sell_Time INT NOT NULL,
+    PRIMARY KEY (Sell_ID,Sell_Time),
+    CONSTRAINT S_ser_id FOREIGN KEY (Sell_ID)
+        REFERENCES SERVICES(Service_ID) 
+        ON DELETE CASCADE
+)
+CREATE TABLE Services_Theatre (
+    T_ID INT NOT NULL,
+    Ser_ID INT NOT NULL,
+    PRIMARY KEY (T_ID,Ser_ID),
+    CONSTRAINT Theatre_offer FOREIGN KEY (T_ID)
+        REFERENCES Cinema(ID)
+        ON DELETE CASCADE,
+    CONSTRAINT Services_offered FOREIGN KEY (Ser_ID)
+        REFERENCES Services(Service_ID)
+        ON DELETE CASCADE
+)
+CREATE TABLE Service_cost (
+    Ser_Bou_ID INT NOT NULL,
+    Tran_ID INT NOT NULL,
+    Amount INT NOT NULL,
+    PRIMARY KEY (Ser_Bou_ID,Tran_ID),
+    CONSTRAINT Services_Bought FOREIGN KEY (Ser_Bou_ID)
+        REFERENCES SERVICES(ID),
+    CONSTRAINT Transactions FOREIGN KEY (Tran_ID)
+        REFERENCES Receipt(Receipt_ID)
+)
+CREATE TABLE TICKET (
+    Ticket_ID INT PRIMARY KEY,
+    Film_ID INT NOT NULL,
+    Room_ID INT NOT NULL,
+    Chair_ID INT NOT NULL,
+    Cost INT NOT NULL,
+    Trans_ID INT NOT NULL,
+    CONSTRAINT Tic_4_Film FOREIGN KEY (Film_ID)
+        REFERENCES Movie(ID),
+    CONSTRAINT Tic_4_Room FOREIGN KEY (Room_ID)
+        REFERENCES Theatre(ID),
+    CONSTRAINT Tic_4_Chair FOREIGN KEY (Chair_ID)
+        REFERENCES SEAT(T_ID)
+)
+CREATE TABLE Ticket_Discount (
+    Event_Name CHAR(10) NOT NULL,
+    Tic_ID INT NOT NULL,
+    T_Type CHAR(1) DEFAULT "T",
+    T_Value INT NOT NULL,
+    CONSTRAINT Dis_Events FOREIGN KEY (Event_Name)
+        REFERENCES EVENT(E_Name)
+        ON DELETE CASCADE,
+    CONSTRAINT Dis_Tickets FOREIGN KEY (Tic_ID)
+        REFERENCES TICKET(Ticket_ID)
+        ON DELETE CASCADE
+)
+CREATE TABLE Services_Discount (
+    Event_Name CHAR(10) NOT NULL,
+    Serv_ID INT NOT NULL,
+    S_Type CHAR(1) DEFAULT "S",
+    S_Value INT NOT NULL,
+    CONSTRAINT Dis_Events FOREIGN KEY (Event_Name)
+        REFERENCES EVENT(E_Name)
+        ON DELETE CASCADE,
+    CONSTRAINT Dis_Services FOREIGN KEY (Serv_ID)
+        REFERENCES SERVICES(SERV_ID)
+        ON DELETE CASCADE
 )
