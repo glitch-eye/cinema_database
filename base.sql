@@ -39,6 +39,7 @@ CREATE TABLE Movie(
     DUB_language CHAR(10) NOT NULL,
     Age_restrict_tag CHAR(10),
     Previous_ID INT,
+    Avg_Score DECIMAL(4, 2) DEFAULT 0,
     CONSTRAINT fk_movie_restrict_age FOREIGN KEY(Age_restrict_tag)
         REFERENCES AGE_RESTRICT(TAG)
         ON DELETE SET NULL,
@@ -230,7 +231,9 @@ CREATE TABLE TICKET (
     CONSTRAINT Tic_4_Room FOREIGN KEY (Room_ID)
         REFERENCES Theatre(ID),
     CONSTRAINT Tic_4_Chair FOREIGN KEY (Chair_ID,Room_ID)
-        REFERENCES SEAT(T_ID, ID)
+        REFERENCES SEAT(T_ID, ID),
+    CONSTRAINT odered_by FOREIGN KEY (Trans_ID)
+        REFERENCES Receipt(Receipt_ID)
 )
 CREATE TABLE Ticket_Discount (
     Event_Name CHAR(10) NOT NULL,
