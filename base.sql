@@ -166,6 +166,7 @@ CREATE TABLE Receipt (
     S_ID INT NULL, -- ID from W_USER
     Receipt_Date DATETIME, 
     Type_of_method CHAR(1) NOT NULL,
+    Total_Amount DECIMAL(5,2) DEFAULT 0,
     CONSTRAINT fk_receipt_user FOREIGN KEY (S_ID)
         REFERENCES W_USER(ID)
         ON DELETE SET NULL
