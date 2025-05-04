@@ -35,7 +35,7 @@ CREATE TABLE AGE_RESTRICT(
 )
 CREATE TABLE MOVIE(
     ID CHAR(11) PRIMARY KEY,
-    M_name VARCHAR(20) NOT NULL,
+    M_name VARCHAR(50) NOT NULL,
     M_duration INT NOT NULL,
     M_premise DATE,
     SUB_language VARCHAR(10),
@@ -196,7 +196,7 @@ CREATE TABLE GAMES (
 )
 CREATE TABLE Services_Time (
     Sell_ID CHAR(3) NOT NULL,
-    Sell_Time CHAR(17) NOT NULL,
+    Sell_Time CHAR(9) NOT NULL,
     PRIMARY KEY (Sell_ID,Sell_Time),
     CONSTRAINT S_ser_id FOREIGN KEY (Sell_ID)
         REFERENCES SERVICES(Service_ID) 
