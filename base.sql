@@ -1,17 +1,17 @@
 -- CREATE DATABASE TEST
 USE TEST
 CREATE TABLE CINEMA(
-    ID CHAR(3) PRIMARY KEY,
+    ID INT PRIMARY KEY,
     C_Name VARCHAR(20) NOT NULL,
     C_Status CHAR(10),
     C_Location VARCHAR(20) NOT NULL 
 )
 
 CREATE TABLE THEATRE(
-    ID CHAR(3) PRIMARY KEY,
+    ID INT PRIMARY KEY,
     Size_Type CHAR(1) NOT NULL,
     Capacity INT NOT NULL,
-    C_ID CHAR(3) NOT NULL,
+    C_ID INT NOT NULL,
     CONSTRAINT fk_Theatre_cine_ID FOREIGN KEY(C_ID)
                             REFERENCES CINEMA(ID)
                             ON DELETE CASCADE
@@ -31,14 +31,14 @@ CREATE TABLE AGE_RESTRICT(
     Age_permit INT NOT NULL
 )
 CREATE TABLE MOVIE(
-    ID CHAR(11) PRIMARY KEY,
+    ID INT PRIMARY KEY,
     M_name VARCHAR(50) NOT NULL,
     M_duration INT NOT NULL,
     M_premise DATE,
     SUB_language VARCHAR(10),
     DUB_language VARCHAR(10) NOT NULL,
     Age_restrict_tag VARCHAR(5),
-    Previous_ID CHAR(11),
+    Previous_ID INT,
     Avg_Score DECIMAL(4, 2) DEFAULT 0,
     CONSTRAINT fk_movie_restrict_age FOREIGN KEY(Age_restrict_tag)
         REFERENCES AGE_RESTRICT(TAG)
@@ -55,7 +55,7 @@ CREATE TABLE EVENT(
     END_date DATE NOT NULL
 )
 CREATE TABLE W_USER(
-    ID CHAR(11) PRIMARY KEY,
+    ID INT PRIMARY KEY,
     User_Name VARCHAR(50) NOT NULL UNIQUE,
     U_Location VARCHAR(50),
     B_Date DATE NOT NULL,
@@ -71,7 +71,7 @@ CREATE TABLE GENRE(
     G_Description CHAR(5000)
 )
 CREATE TABLE Movie_Genre(
-    ID CHAR(11) NOT NULL,
+    ID INT NOT NULL,
     M_Genre VARCHAR(20) NOT NULL,
     PRIMARY KEY(ID, M_Genre),
     CONSTRAINT fk_GENRE_table_movie FOREIGN KEY (ID)
@@ -83,7 +83,7 @@ CREATE TABLE Movie_Genre(
 )
 
 CREATE TABLE ATTENDEE(
-    ID CHAR(11) PRIMARY KEY,
+    ID INT PRIMARY KEY,
     P_NAME VARCHAR(50) NOT NULL,
     B_Date DATE,
     Total_Directed INT DEFAULT 0,       
@@ -100,8 +100,8 @@ CREATE TABLE ATTENDEE(
     )
 )
 CREATE TABLE Movie_Participant(
-    M_ID CHAR(11) NOT NULL,
-    P_ID CHAR(11) NOT NULL,
+    M_ID INT NOT NULL,
+    P_ID INT NOT NULL,
     PRIMARY KEY(M_ID, P_ID),
     CONSTRAINT fk_m_parti_movie FOREIGN KEY(M_ID)
                                 REFERENCES MOVIE(ID)
@@ -111,8 +111,8 @@ CREATE TABLE Movie_Participant(
                                 ON DELETE CASCADE
 )
 CREATE TABLE Movie_Review(
-    U_ID CHAR(11) NOT NULL,
-    M_ID CHAR(11) NOT NULL,
+    U_ID INT NOT NULL,
+    M_ID INT NOT NULL,
     PRIMARY KEY(U_ID, M_ID),
     Details VARCHAR(5000),
     Score INT NOT NULL,
@@ -125,8 +125,8 @@ CREATE TABLE Movie_Review(
                                     ON DELETE CASCADE
 )
 CREATE TABLE SCREENING(
-    M_ID CHAR(11) NOT NULL,
-    T_ID CHAR(3) NOT NULL,
+    M_ID INT NOT NULL,
+    T_ID INT NOT NULL,
     Date_of_screening DATE NOT NULL,
     Time_of_srceening TIME NOT NULL,
     PRIMARY KEY(M_ID, T_ID, Date_of_screening, Time_of_srceening),
@@ -138,8 +138,8 @@ CREATE TABLE SCREENING(
                                     ON DELETE CASCADE
 )
 CREATE TABLE SEAT(
-    T_ID CHAR(3) NOT NULL,
-    ID CHAR(10) NOT NULL,
+    T_ID INT NOT NULL,
+    ID INT NOT NULL,
     PRIMARY KEY(T_ID, ID),
     S_Type Char(1) DEFAULT 'N',
     Mutiplier_Val INT DEFAULT 1,
@@ -153,7 +153,7 @@ CREATE TABLE SEAT(
     )
 )
 CREATE TABLE Event_Details (
-    Cinema_ID CHAR(3) NOT NULL,
+    Cinema_ID INT NOT NULL,
     Name_event VARCHAR(30) NOT NULL,
     PRIMARY KEY (Cinema_ID, Name_event),
     CONSTRAINT fk_Cinema FOREIGN KEY (Cinema_ID)
@@ -162,8 +162,8 @@ CREATE TABLE Event_Details (
         REFERENCES EVENT(E_Name)
 )
 CREATE TABLE RECEIPT (
-    Receipt_ID CHAR(11) PRIMARY KEY, 
-    U_ID CHAR(11) NULL, -- ID from W_USER
+    Receipt_ID INT PRIMARY KEY, 
+    U_ID INT NULL, -- ID from W_USER
     Receipt_Date DATETIME, 
     Method CHAR(1) NOT NULL,
     Total_Amount DECIMAL(5,2) DEFAULT 0,
@@ -173,11 +173,11 @@ CREATE TABLE RECEIPT (
 )
 
 CREATE TABLE SERVICES (
-    Service_ID CHAR(3) PRIMARY KEY,
+    Service_ID INT PRIMARY KEY,
     Price_VND INT NOT NULL
 )
 CREATE TABLE FOODS_DRINKS (
-    FD_ID CHAR(3) PRIMARY KEY,
+    FD_ID INT PRIMARY KEY,
     FD_Name VARCHAR(50) NOT NULL,
     Portion INT NOT NULL
     CONSTRAINT FD_ser_id FOREIGN KEY (FD_ID)
@@ -185,14 +185,14 @@ CREATE TABLE FOODS_DRINKS (
         ON DELETE CASCADE
 )
 CREATE TABLE GAMES (
-    G_ID CHAR(3) PRIMARY KEY,
+    G_ID INT PRIMARY KEY,
     G_Type CHAR(1) DEFAULT 'G',
     CONSTRAINT G_ser_id FOREIGN KEY (G_ID)
         REFERENCES SERVICES(Service_ID)
         ON DELETE CASCADE
 )
 CREATE TABLE Services_Time (
-    Sell_ID CHAR(3) NOT NULL,
+    Sell_ID INT NOT NULL,
     Sell_Time VARCHAR(11) NOT NULL,
     PRIMARY KEY (Sell_ID,Sell_Time),
     CONSTRAINT S_ser_id FOREIGN KEY (Sell_ID)
@@ -200,8 +200,8 @@ CREATE TABLE Services_Time (
         ON DELETE CASCADE
 )
 CREATE TABLE Services_Cinema (
-    C_ID CHAR(3) NOT NULL,
-    Ser_ID CHAR(3) NOT NULL,
+    C_ID INT NOT NULL,
+    Ser_ID INT NOT NULL,
     PRIMARY KEY (C_ID,Ser_ID),
     CONSTRAINT Theatre_offer FOREIGN KEY (C_ID)
         REFERENCES Cinema(ID)
@@ -211,8 +211,8 @@ CREATE TABLE Services_Cinema (
         ON DELETE CASCADE
 )
 CREATE TABLE Service_Cost (
-    Ser_Bou_ID CHAR(3) NOT NULL,
-    Tran_ID CHAR(11) NOT NULL,
+    Ser_Bou_ID INT NOT NULL,
+    Tran_ID INT NOT NULL,
     Amount INT NOT NULL,
     Cost INT NOT NULL,
     PRIMARY KEY (Ser_Bou_ID,Tran_ID),
@@ -222,12 +222,12 @@ CREATE TABLE Service_Cost (
         REFERENCES Receipt(Receipt_ID)
 )
 CREATE TABLE TICKET (
-    Ticket_ID CHAR(12) PRIMARY KEY,
-    Film_ID CHAR(11) NOT NULL,
-    Room_ID CHAR(3) NOT NULL,
-    Chair_ID CHAR(10) NOT NULL,
+    Ticket_ID INT PRIMARY KEY,
+    Film_ID INT NOT NULL,
+    Room_ID INT NOT NULL,
+    Chair_ID INT NOT NULL,
     Cost INT NOT NULL,
-    Trans_ID CHAR(11) NOT NULL,
+    Trans_ID INT NOT NULL,
     CONSTRAINT Tic_4_Film FOREIGN KEY (Film_ID)
         REFERENCES MOVIE(ID),
     CONSTRAINT Tic_4_Chair FOREIGN KEY (Room_ID,Chair_ID)
@@ -237,7 +237,7 @@ CREATE TABLE TICKET (
 )
 CREATE TABLE Ticket_Discount (
     Event_Name VARCHAR(30) NOT NULL,
-    Tic_ID CHAR(12) NOT NULL,
+    Tic_ID INT NOT NULL,
     T_Type CHAR(1) DEFAULT 'T',
     T_Value INT NOT NULL,
     CONSTRAINT Dis_Events FOREIGN KEY (Event_Name)
@@ -249,7 +249,7 @@ CREATE TABLE Ticket_Discount (
 )
 CREATE TABLE Services_Discount (
     Event_Name VARCHAR(30) NOT NULL,
-    Serv_ID CHAR(3) NOT NULL,
+    Serv_ID INT NOT NULL,
     S_Type CHAR(1) DEFAULT 'P',
     S_Value INT NOT NULL,
     CONSTRAINT SER_Dis_Events FOREIGN KEY (Event_Name)
