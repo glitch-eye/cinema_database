@@ -1,7 +1,7 @@
 CREATE OR ALTER FUNCTION SearchAvailScreening(
-	@movieID 		INT = NULL,
+	@movieID 	INT = NULL,
 	@movieKeyword 	VARCHAR(20) = NULL,
-	@movieGenre		VARCHAR(10) = NULL,
+	@movieGenre	VARCHAR(10) = NULL,
 	@cinemaName 	VARCHAR(20) = NULL
 ) RETURNS @OutTable TABLE(
 	MovieName VARCHAR(20),
