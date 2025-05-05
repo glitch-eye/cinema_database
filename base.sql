@@ -214,7 +214,7 @@ CREATE TABLE Service_Cost (
     Ser_Bou_ID INT NOT NULL,
     Tran_ID INT NOT NULL,
     Amount INT NOT NULL,
-    Cost INT NOT NULL,
+    Cost INT NULL,
     PRIMARY KEY (Ser_Bou_ID,Tran_ID),
     CONSTRAINT Services_Bought FOREIGN KEY (Ser_Bou_ID)
         REFERENCES SERVICES(Service_ID),
