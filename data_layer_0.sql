@@ -1,12 +1,10 @@
 USE TEST
-
 INSERT INTO CINEMA
 VALUES 
 ('011','Hai Ba Trung','Open','TP.HCM'),
 ('073','Quoc Thanh','Open','TP.HCM'),
 ('042','Sinh Vien','Open','Binh Duong'),
 ('056','Satra Quan 6','Open','TP.HCM')
-
 INSERT INTO AGE_RESTRICT
 VALUES 
 ('G','0'),
@@ -14,7 +12,6 @@ VALUES
 ('PG-13','13'),
 ('R','17'),
 ('NC-17','17')
-
 INSERT INTO GENRE
 VALUES 
 ('Action','Associated with particular types of spectacle (e.g., explosions, chases, combat)'),
@@ -32,7 +29,6 @@ VALUES
 ('Thriller','Films that evoke excitement and suspense in the audience. The suspense element found in most films'' plots is particularly exploited by the filmmaker in this genre. Tension is created by delaying what the audience sees as inevitable, and is built through situations that are menacing or where escape seems impossible.'),
 ('Western','A genre in which films are set in the American West during the 19th century.'),
 ('Romance','Characterized by an emphasis on passion, emotion, and the affectionate romantic involvement of the main characters, with romantic love or the search for it typically being the primary focus.')
-
 INSERT INTO W_USER
 VALUES
 ('00015082010','endsky','TP.HCM','2010-03-26','0482765458','0'),
@@ -57,7 +53,6 @@ VALUES
 ('00010101321','infernos','TP.HCM','2007-06-27','0255256574','1'),
 ('06666666666','Twilight','TP.HCM','1993-09-04','0666666666','1'),
 ('01212121212','White Night','TP.HCM','2003-12-07','0120120120','1')
-
 INSERT INTO EVENT
 VALUES 
 ('Summer Blockbuster Sale', 'Enjoy discounts on all blockbuster films this summer!', '2025-06-01', '2025-08-31'),
@@ -71,7 +66,6 @@ VALUES
 ('VIP Movie Night', 'Exclusive VIP movie screenings with a 25% discount for members.', '2025-07-20', '2025-07-20'),
 ('Kids Movie Weekend', 'Discounted tickets for all kids’ movies every weekend in May!', '2025-05-01', '2025-05-31'),
 ('Cinema Anniversary Sale', 'Celebrate our anniversary with a 30% discount on all tickets for one week only!', '2025-11-01', '2025-11-07')
-
 INSERT INTO SERVICES
 VALUES
 ('001','10000'),
@@ -89,9 +83,6 @@ VALUES
 ('201','10000'),
 ('202','10000'),
 ('203','10000')
-
--- ATTENDEE INSERTS
-
 INSERT INTO ATTENDEE 
 VALUES 
 ('BW000000001', 'Bruce Willis', '1955-03-19', 0, 50, 0, 1),

@@ -1,7 +1,4 @@
 -- CREATE DATABASE TEST
--- Entity (Weak and strong) are in bold
--- Relationship are not
--- Changes some name to be more consistent
 USE TEST
 CREATE TABLE CINEMA(
     ID CHAR(3) PRIMARY KEY,
@@ -196,7 +193,7 @@ CREATE TABLE GAMES (
 )
 CREATE TABLE Services_Time (
     Sell_ID CHAR(3) NOT NULL,
-    Sell_Time CHAR(9) NOT NULL,
+    Sell_Time VARCHAR(11) NOT NULL,
     PRIMARY KEY (Sell_ID,Sell_Time),
     CONSTRAINT S_ser_id FOREIGN KEY (Sell_ID)
         REFERENCES SERVICES(Service_ID) 
