@@ -1,0 +1,60 @@
+body {
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    background-color: whitesmoke;
+    color: black;
+  }
+  
+  .cinema-list {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .cinema-item {
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    background-color: #f5f5f5;
+    border-radius: 6px;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .cinema-item:hover {
+    background-color: #e9f5ff;
+  }
+  
+  .cinema-item h5 {
+    margin: 0 0 5px;
+    font-weight: bold;
+  }
+  
+  .cinema-item p {
+    margin: 0;
+    color: #444;
+  }
+  
+  .add-cinema-form {
+    max-width: 600px;
+    margin: 40px auto 0;
+    padding: 20px;
+    background-color: #fafafa;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+  }
+  
+  .add-cinema-form h4 {
+    margin-bottom: 15px;
+  }
+  
+  .add-cinema-form .form-control {
+    margin-bottom: 10px;
+  }
+  
+  .add-cinema-form .btn {
+    margin-top: 10px;
+  }
+  

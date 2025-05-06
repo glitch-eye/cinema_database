@@ -1,0 +1,108 @@
+@import "nav";
+
+body {
+    box-sizing: border-box;
+    background-color: whitesmoke;
+
+    ::-webkit-scrollbar {
+        width: 30px;
+        height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #A9A9A9;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        width: 30px;
+        background: #696969;
+    }
+
+    .row {
+        margin: 30px 10px 20px;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        height: 450px;
+
+        .catagoryBanner {
+            position: absolute;
+
+            h4 {
+                margin-bottom: 20px;
+                color: black;
+            }
+        }
+
+        ul {
+            margin-top: 50px;
+            flex-direction: row;
+            list-style: none;
+            display: flex;
+
+            li {
+                white-space: normal;
+                vertical-align: top;
+                display: inline-block;
+                width: 200px;
+                margin-right: 15px;
+                position: relative;
+
+                a {
+                    text-decoration: none;
+                }
+
+                img {
+                    height: 300px;
+                    width: 200px;
+                    display: block;
+                    user-select: none;
+                }
+
+                p {
+                    overflow-wrap: break-word;
+                    user-select: none;
+                    text-align: center;
+                    margin-top: 5px;
+                    color: black;
+                }
+
+                .ticketBtn {
+                    color: #ffd900;
+                    position: absolute;
+                    top: 75%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    margin: 0;
+                    display: none;
+                    background-color: transparent;
+                }
+
+                .btn {
+                    width: 100px;
+                    height: 100px;
+                }
+            }
+
+            li:hover {
+                img {
+                    transform: scale(1.05);
+                }
+
+                .ticketBtn {
+                    display: inline-block;
+                }
+            }
+        }
+    }
+
+    .row.genresResult {
+        overflow: auto;
+        height: 100%;
+
+        ul {
+            margin-top: 50px;
+            white-space: normal;
+            list-style: none;
+        }
+    }
+}
