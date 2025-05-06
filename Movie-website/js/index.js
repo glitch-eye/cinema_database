@@ -44,6 +44,7 @@ let nowPlayingDisplay = (movie) => {
     });
 };
 
+
 let upcomingDisplay = (movie) => {
     let ul = upcoming.getElementsByTagName("ul")[0];
     movie.results.forEach(film => {
