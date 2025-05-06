@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lịch chiếu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand">Cinema Online</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="./index.html">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="./cinemas.html">Các rạp chiếu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="./GetScreeningSchedule.html">Danh sách lịch chiếu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="./BookTicket.html">Đặt vé</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2 class="mb-4">Tìm lịch chiếu phim</h2>
+
+        <form id="scheduleForm" class="row g-3">
+            <div class="col-md-4">
+                <label for="cinemaId" class="form-label">Mã Rạp</label>
+                <input type="number" class="form-control" id="cinemaId" required>
+            </div>
+            <div class="col-md-4">
+                <label for="startDate" class="form-label">Từ ngày</label>
+                <input type="date" class="form-control" id="startDate" required>
+            </div>
+            <div class="col-md-4">
+                <label for="endDate" class="form-label">Đến ngày</label>
+                <input type="date" class="form-control" id="endDate" required>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Xem lịch chiếu</button>
+            </div>
+        </form>
+
+        <hr>
+
+        <div id="resultsSection" class="mt-4">
+            <h4>Kết quả:</h4>
+            <table class="table table-bordered table-striped mt-3" id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>Tên phim</th>
+                        <th>Mã rạp</th>
+                        <th>Tên rạp</th>
+                        <th>Ngày chiếu</th>
+                        <th>Giờ chiếu</th>
+                        <th>Thời lượng</th>
+                        <th>Giới hạn tuổi</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsBody">
+                    <!-- render -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('scheduleForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const cinemaId = document.getElementById('cinemaId').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+
+            try {
+                console.log("DEBUG:", { cinemaId, startDate, endDate });
+                const response = await fetch(`http://localhost:3000/api/screenings?cinemaId=${cinemaId}&startDate=${startDate}&endDate=${endDate}`);
+                const data = await response.json();
+
+                const resultsBody = document.getElementById('resultsBody');
+                resultsBody.innerHTML = '';
+
+                if (data.error) {
+                    resultsBody.innerHTML = `<tr><td colspan="7" class="text-danger">${data.error}</td></tr>`;
+                    return;
+                }
+                
+                function formatUTCTo12Hour(timeString) {
+                    const date = new Date(timeString);
+                    const hours = date.getUTCHours();
+                    const minutes = date.getUTCMinutes();
+
+                    const ampm = hours >= 12 ? 'PM' : 'AM';
+                    const hour12 = hours % 12 || 12;
+                    const paddedMinutes = minutes.toString().padStart(2, '0');
+
+                    return `${hour12}:${paddedMinutes} ${ampm}`;
+                }
+
+                data.forEach(item => {
+                    const screeningDate = new Date(item.Screening_Date).toISOString().split('T')[0];
+
+                    const row = `<tr>
+                        <td>${item.Movie_Name}</td>
+                        <td>${item.Theatre_ID}</td>
+                        <td>${item.Cinema_Name}</td>
+                        <td>${screeningDate}</td>
+                        <td>${formatUTCTo12Hour(item.Screening_Time)}</td>
+                        <td>${item.Duration} phút</td>
+                        <td>${item.Age_Restriction}</td>
+                    </tr>`;
+                    resultsBody.innerHTML += row;
+                });
+
+            } catch (err) {
+                console.error('Lỗi khi lấy lịch chiếu:', err);
+                document.getElementById('resultsBody').innerHTML = `<tr><td colspan="7" class="text-danger">Lỗi khi gọi API.</td></tr>`;
+            }
+        });
+    </script>
+</body>
+
+</html>

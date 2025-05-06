@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Đặt vé</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand">Cinema Online</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="./index.html">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="./cinemas.html">Các rạp chiếu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="./GetScreeningSchedule.html">Danh sách lịch chiếu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="./BookTicket.html">Đặt vé</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container mt-4">
+    <h2>Đặt Vé Xem Phim</h2>
+    <form id="bookTicketForm">
+        <div class="mb-3">
+            <label for="movieId" class="form-label">ID Phim</label>
+            <input type="number" class="form-control" id="movieId" required>
+        </div>
+        <div class="mb-3">
+            <label for="theatreId" class="form-label">ID Phòng Chiếu</label>
+            <input type="number" class="form-control" id="theatreId" required>
+        </div>
+        <div class="mb-3">
+            <label for="screeningDate" class="form-label">Ngày Chiếu</label>
+            <input type="date" class="form-control" id="screeningDate" required>
+        </div>
+        <div class="mb-3">
+            <label for="screeningTime" class="form-label">Giờ Chiếu</label>
+            <input type="time" class="form-control" id="screeningTime" required>
+        </div>
+        <div class="mb-3">
+            <label for="seatId" class="form-label">ID Ghế</label>
+            <input type="number" class="form-control" id="seatId" required>
+        </div>
+        <div class="mb-3">
+            <label for="userId" class="form-label">ID Người Dùng</label>
+            <input type="number" class="form-control" id="userId" required>
+        </div>
+        <div class="mb-3">
+            <label for="paymentMethod" class="form-label">Phương Thức Thanh Toán (C/D/O)</label>
+            <input type="text" class="form-control" id="paymentMethod" maxlength="1" required>
+        </div>
+        <div class="mb-3">
+            <label for="ticketCost" class="form-label">Giá Vé</label>
+            <input type="number" class="form-control" id="ticketCost" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Đặt Vé</button>
+    </form>
+
+    <div id="result" class="mt-3"></div>
+</div>
+
+    <script>
+        document.getElementById('bookTicketForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const data = {
+                movieId: +document.getElementById('movieId').value,
+                theatreId: +document.getElementById('theatreId').value,
+                screeningDate: document.getElementById('screeningDate').value,
+                screeningTime: document.getElementById('screeningTime').value,
+                seatId: +document.getElementById('seatId').value,
+                userId: +document.getElementById('userId').value,
+                paymentMethod: document.getElementById('paymentMethod').value,
+                ticketCost: +document.getElementById('ticketCost').value
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/api/book-ticket', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                document.getElementById('result').innerText = result.message || result.error;
+            } catch (error) {
+                document.getElementById('result').innerText = 'Đã xảy ra lỗi khi đặt vé.';
+            }
+        });
+    </script>
+</body>
+
+</html>
