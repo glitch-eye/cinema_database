@@ -26,7 +26,7 @@ BEGIN
         SELECT 
             sd.Serv_ID,
             SUM(CASE 
-                WHEN sd.S_Type = 'P' THEN s.Price * sd.S_Value / 100.0
+                WHEN sd.S_Type = 'P' THEN s.Price_VND * sd.S_Value / 100.0
                 ELSE sd.S_Value
             END) AS Discount
         FROM Services_Discount sd
@@ -49,7 +49,7 @@ BEGIN
         -- Service costs with discounts
         COALESCE((
             SELECT SUM(CAST(
-                sc.Amount * (s.Price - COALESCE(sd.Discount, 0)) AS DECIMAL(5,2))
+                sc.Amount * (s.Price_VND - COALESCE(sd.Discount, 0)) AS DECIMAL(5,2))
             )
             FROM Service_cost sc
             INNER JOIN SERVICES s ON s.Service_ID = sc.Ser_Bou_ID
