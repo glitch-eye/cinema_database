@@ -129,7 +129,7 @@ CREATE TABLE SCREENING(
     T_ID INT NOT NULL,
     Date_of_screening DATE NOT NULL,
     Time_of_screening TIME NOT NULL,
-    PRIMARY KEY(M_ID, T_ID, Date_of_screening, Time_of_screening),
+    PRIMARY KEY(T_ID, Date_of_screening, Time_of_screening),
     CONSTRAINT fk_screeninng_movie FOREIGN KEY(M_ID)
                                     REFERENCES MOVIE(ID)
                                     ON DELETE CASCADE,
@@ -230,8 +230,8 @@ CREATE TABLE TICKET (
     Time_frame TIME NOT NULL,
     Cost INT NULL,
     Trans_ID INT NOT NULL,
-    CONSTRAINT Tic_4_Film FOREIGN KEY (Film_ID,Date_frame,Time_frame)
-        REFERENCES SCREENING(M_ID,Date_of_screening,Time_of_screening),
+    CONSTRAINT Tic_4_Film FOREIGN KEY (Room_ID, Date_frame, Time_frame)
+        REFERENCES SCREENING(T_ID, Date_of_screening, Time_of_screening),
     CONSTRAINT Tic_4_Chair FOREIGN KEY (Room_ID,Chair_ID)
         REFERENCES SEAT(T_ID,ID),
     CONSTRAINT odered_by FOREIGN KEY (Trans_ID)
