@@ -45,7 +45,7 @@ CREATE TABLE MOVIE(
         ON DELETE SET NULL,
      CONSTRAINT fk_previous_part FOREIGN KEY (Previous_ID)
         REFERENCES MOVIE(ID)
-        ON UPDATE NO ACTION
+        ON UPDATE CASCADE
         ON DELETE NO ACTION
 )
 CREATE TABLE EVENT(
@@ -226,14 +226,16 @@ CREATE TABLE TICKET (
     Film_ID INT NOT NULL,
     Room_ID INT NOT NULL,
     Chair_ID INT NOT NULL,
-    Cost INT NOT NULL,
+    Date_frame DATE NOT NULL,
+    Time_frame TIME NOT NULL,
+    Cost INT NULL,
     Trans_ID INT NOT NULL,
-    CONSTRAINT Tic_4_Film FOREIGN KEY (Film_ID)
-        REFERENCES SCREENING(M_ID),
+    CONSTRAINT Tic_4_Film FOREIGN KEY (Film_ID,Date_frame,Time_frame)
+        REFERENCES SCREENING(M_ID,Date_of_screening,Time_of_screening),
     CONSTRAINT Tic_4_Chair FOREIGN KEY (Room_ID,Chair_ID)
         REFERENCES SEAT(T_ID,ID),
     CONSTRAINT odered_by FOREIGN KEY (Trans_ID)
-        REFERENCES Receipt(Receipt_ID)
+        REFERENCES Receipt(Receipt_ID),
 )
 CREATE TABLE Ticket_Discount (
     Event_Name VARCHAR(30) NOT NULL,
