@@ -22,7 +22,7 @@ AS BEGIN
 		T.ID,
 		C.C_Name,
 		S.DATE_of_screening,
-		S.Time_of_srceening
+		S.Time_of_screening
 	FROM Screening S
 	
 	LEFT JOIN Movie M 			ON S.M_ID = M.ID

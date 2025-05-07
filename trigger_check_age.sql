@@ -47,5 +47,7 @@ BEGIN
                 ROLLBACK;
                 RAISERROR ('User %s is %d years old, which is below the required age (%d) for this movie.', 16, 1, @UserID, @UserAge, @RequiredAge);
                 RETURN;
-            END;
-        END;
+            END
+        END
+	END
+END;

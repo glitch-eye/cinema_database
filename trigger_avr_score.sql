@@ -3,7 +3,7 @@
 -- ADD Avg_Score DECIMAL(4, 2) DEFAULT 0;
 
 CREATE TRIGGER UpdateMovieAvgScore
-ON Movie_review_by_user
+ON Movie_Review
 AFTER INSERT, UPDATE, DELETE
 AS
 BEGIN

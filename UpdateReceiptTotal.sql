@@ -56,7 +56,7 @@ BEGIN
             LEFT JOIN ServiceDiscounts sd ON sd.Serv_ID = s.Service_ID
             WHERE sc.Tran_ID = @ReceiptID
         ), 0)
-    ) AS DECIMAL(5,2));
+    ) AS DECIMAL(5,2))
 
     -- Check for overflow
     IF @TotalAmount > 999.99
@@ -68,6 +68,6 @@ BEGIN
     -- Update Receipt.Total_Amount
     UPDATE Receipt
     SET Total_Amount = @TotalAmount
-    WHERE Receipt_ID = @ReceiptID;
+    WHERE Receipt_ID = @ReceiptID
 END;
 GO
