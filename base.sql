@@ -40,6 +40,7 @@ CREATE TABLE Movie(
     Age_restrict_tag CHAR(10),
     Previous_ID INT,
     Avg_Score DECIMAL(4, 2) DEFAULT 0,
+    poster_url VARCHAR(255),
     CONSTRAINT fk_movie_restrict_age FOREIGN KEY(Age_restrict_tag)
         REFERENCES AGE_RESTRICT(TAG)
         ON DELETE SET NULL,
@@ -61,6 +62,7 @@ CREATE TABLE W_USER(
     B_Date DATE NOT NULL,
     P_number BIGINT NOT NULL,
     S_FLAG BIT,
+    Pass_word NVARCHAR(256),
     CONSTRAINT chk_birth_date CHECK (
         DATEDIFF(YEAR, B_Date, GETDATE()) >= 12
     )
@@ -128,8 +130,8 @@ CREATE TABLE Screening(
     M_ID INT NOT NULL,
     T_ID INT NOT NULL,
     DATE_of_screening DATE NOT NULL,
-    Time_of_srceening TIME NOT NULL,
-    PRIMARY KEY(M_ID, T_ID, DATE_of_screening, Time_of_srceening),
+    Time_of_screening TIME NOT NULL,
+    PRIMARY KEY(M_ID, T_ID, DATE_of_screening, Time_of_screening),
     CONSTRAINT fk_screeninng_movie FOREIGN KEY(M_ID)
                                     REFERENCES Movie(ID)
                                     ON DELETE CASCADE,
@@ -224,16 +226,16 @@ CREATE TABLE TICKET (
     Ticket_ID INT PRIMARY KEY,
     Film_ID INT NOT NULL,
     Room_ID INT NOT NULL,
+    Date_of_screening DATE NOT NULL,
+    Time_of_screening TIME NOT NULL,
     Chair_ID INT NOT NULL,
     Cost INT NOT NULL,
     Trans_ID INT NOT NULL,
-    CONSTRAINT Tic_4_Film FOREIGN KEY (Film_ID)
-        REFERENCES Movie(ID),
-    CONSTRAINT Tic_4_Room FOREIGN KEY (Room_ID)
-        REFERENCES Theatre(ID),
-    CONSTRAINT Tic_4_Chair FOREIGN KEY (Chair_ID,Room_ID)
+    CONSTRAINT Tic_4_Screening FOREIGN KEY (Film_ID, Room_ID, Date_of_screening, Time_of_screening)
+        REFERENCES Screening(M_ID, T_ID, DATE_of_screening, Time_of_screening),
+    CONSTRAINT Tic_4_Chair FOREIGN KEY (Chair_ID, Room_ID)
         REFERENCES SEAT(T_ID, ID),
-    CONSTRAINT odered_by FOREIGN KEY (Trans_ID)
+    CONSTRAINT ordered_by FOREIGN KEY (Trans_ID)
         REFERENCES Receipt(Receipt_ID)
 )
 CREATE TABLE Ticket_Discount (
