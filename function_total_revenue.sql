@@ -1,4 +1,4 @@
-CREATE FUNCTION GetTotalRevenue (@InputDate DATE, @CinemaID INT = NULL)
+CREATE FUNCTION GetTotalRevenue (@InputDate DATE, @CinemaID CHAR(3) = NULL)
 RETURNS DECIMAL(18, 2)
 AS
 BEGIN
@@ -17,13 +17,15 @@ BEGIN
         UNION ALL
 
         -- Revenue from services
-        SELECT SUM(sc.Amount) AS Total
-        FROM Service_cost sc
+        SELECT SUM(sc.Cost) AS Total
+        FROM Service_Cost sc
         JOIN Receipt r ON sc.Tran_ID = r.Receipt_ID
-        JOIN Services_Theatre st ON sc.Ser_Bou_ID = st.Ser_ID
+        JOIN Services_Cinema scn ON sc.Ser_Bou_ID = scn.Ser_ID
         WHERE CAST(r.Receipt_Date AS DATE) = @InputDate
-          AND (@CinemaID IS NULL OR st.T_ID = @CinemaID)
+          AND (@CinemaID IS NULL OR scn.C_ID = @CinemaID)
     ) AS Revenue;
 
     RETURN @TotalRevenue;
 END;
+SELECT dbo.GetTotalRevenue('2025-04-02', NULL) AS TotalRevenue;
+SELECT dbo.GetTotalRevenue('2025-04-02', 011) AS TotalRevenue;
