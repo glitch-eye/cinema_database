@@ -128,8 +128,8 @@ CREATE TABLE SCREENING(
     M_ID INT NOT NULL,
     T_ID INT NOT NULL,
     Date_of_screening DATE NOT NULL,
-    Time_of_srceening TIME NOT NULL,
-    PRIMARY KEY(M_ID, T_ID, Date_of_screening, Time_of_srceening),
+    Time_of_screening TIME NOT NULL,
+    PRIMARY KEY(M_ID, T_ID, Date_of_screening, Time_of_screening),
     CONSTRAINT fk_screeninng_movie FOREIGN KEY(M_ID)
                                     REFERENCES MOVIE(ID)
                                     ON DELETE CASCADE,
