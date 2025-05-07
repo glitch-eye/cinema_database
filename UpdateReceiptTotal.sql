@@ -11,7 +11,7 @@ BEGIN
     WITH TicketDiscounts AS (
         SELECT 
             td.Tic_ID,
-            SUM(CASE 
+            MAX(CASE 
                 WHEN td.T_Type = 'T' THEN td.T_Value
                 ELSE t.Cost * td.T_Value / 100.0
             END) AS Discount
@@ -25,7 +25,7 @@ BEGIN
     ServiceDiscounts AS (
         SELECT 
             sd.Serv_ID,
-            SUM(CASE 
+            MAX(CASE 
                 WHEN sd.S_Type = 'P' THEN s.Price_VND * sd.S_Value / 100.0
                 ELSE sd.S_Value
             END) AS Discount
