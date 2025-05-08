@@ -16,8 +16,6 @@ CREATE TABLE THEATRE(
                             REFERENCES CINEMA(ID)
                             ON DELETE CASCADE
 )
-
-
 CREATE TABLE AGE_RESTRICT(
     TAG VARCHAR(5) PRIMARY KEY,
     Age_permit INT NOT NULL
@@ -154,7 +152,7 @@ CREATE TABLE Event_Details (
         REFERENCES EVENT(E_Name)
 )
 CREATE TABLE RECEIPT (
-    Receipt_ID INT PRIMARY KEY, 
+    Receipt_ID INT IDENTITY(1,1) PRIMARY KEY, 
     U_ID INT NULL, -- ID from W_USER
     Receipt_Date DATETIME, 
     Method CHAR(1) NOT NULL,
