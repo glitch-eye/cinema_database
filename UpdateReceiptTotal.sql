@@ -5,7 +5,7 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @TotalAmount DECIMAL(5,2);
+    DECLARE @TotalAmount DECIMAL(10,2);
 
     -- Calculate total amount using CTEs to avoid nested aggregates
     WITH TicketDiscounts AS (
@@ -40,7 +40,7 @@ BEGIN
         -- Ticket costs with discounts
         COALESCE((
             SELECT SUM(CAST(
-                t.Cost - COALESCE(td.Discount, 0) AS DECIMAL(5,2))
+                t.Cost - COALESCE(td.Discount, 0) AS DECIMAL(10,2))
             )
             FROM TICKET t
             LEFT JOIN TicketDiscounts td ON td.Tic_ID = t.Ticket_ID
@@ -49,19 +49,19 @@ BEGIN
         -- Service costs with discounts
         COALESCE((
             SELECT SUM(CAST(
-                sc.Amount * (s.Price_VND - COALESCE(sd.Discount, 0)) AS DECIMAL(5,2))
+                sc.Amount * (s.Price_VND - COALESCE(sd.Discount, 0)) AS DECIMAL(10,2))
             )
             FROM Service_cost sc
             INNER JOIN SERVICES s ON s.Service_ID = sc.Ser_Bou_ID
             LEFT JOIN ServiceDiscounts sd ON sd.Serv_ID = s.Service_ID
             WHERE sc.Tran_ID = @ReceiptID
         ), 0)
-    ) AS DECIMAL(5,2))
+    ) AS DECIMAL(10,2))
 
     -- Check for overflow
-    IF @TotalAmount > 999.99
+    IF @TotalAmount > 99999999.99
     BEGIN
-        RAISERROR ('Total amount exceeds DECIMAL(5,2) limit of 999.99.', 16, 1);
+        RAISERROR ('Total amount exceeds DECIMAL(10,2) limit of 99999999.99.', 16, 1);
         RETURN;
     END
 
