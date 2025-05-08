@@ -36,7 +36,7 @@ BEGIN
             WHERE M_ID = @MovieID
               AND T_ID = @TheatreID
               AND DATE_of_screening = @ScreeningDate
-              AND Time_of_srceening = @ScreeningTime
+              AND Time_of_screening = @ScreeningTime  -- Đã sửa
         )
         BEGIN
             THROW 50002, 'Specified screening does not exist.', 1;
@@ -59,7 +59,7 @@ BEGIN
         END
 
         -- Create a new receipt
-        INSERT INTO Receipt (S_ID, Receipt_Date, Type_of_method)
+        INSERT INTO Receipt (U_ID, Receipt_Date, Method)  -- Đã sửa 'S_ID' và 'Type_of_method'
         VALUES (@UserID, GETDATE(), @PaymentMethod);
 
         -- Get the generated Receipt_ID
