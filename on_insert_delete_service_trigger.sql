@@ -37,7 +37,6 @@ BEGIN
                 ROLLBACK;
             THROW;
         END CATCH;
-        FETCH p
         FETCH NEXT FROM receipt_cursor INTO @ReceiptID;
     END;
 
