@@ -53,8 +53,7 @@ BEGIN
         END
 
         -- Validate payment method
-        IF @PaymentMethod NOT IN ('C', 'D', 'O') -- Assuming C=Card, D=Debit, O=Online
-        BEGIN
+        IF @PaymentMethod NOT IN ('C', 'D', 'P') 
             THROW 50004, 'Invalid payment method.', 1;
         END
 
