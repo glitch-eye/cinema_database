@@ -29,7 +29,7 @@ BEGIN
             s.T_ID AS Theatre_ID,
             c.C_Name AS Cinema_Name,
             s.DATE_of_screening AS Screening_Date,
-            s.Time_of_srceening AS Screening_Time,
+            s.Time_of_screening AS Screening_Time,
             m.M_duration AS Duration,
             m.Age_restrict_tag AS Age_Restriction
         FROM Screening s
@@ -38,7 +38,7 @@ BEGIN
         INNER JOIN Cinema c ON t.C_ID = c.ID
         WHERE c.ID = @CinemaID
           AND s.DATE_of_screening BETWEEN @StartDate AND @EndDate
-        ORDER BY s.DATE_of_screening, s.Time_of_srceening;
+        ORDER BY s.DATE_of_screening, s.Time_of_screening;
 
     END TRY
     BEGIN CATCH
