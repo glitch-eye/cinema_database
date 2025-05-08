@@ -1,4 +1,5 @@
-INSERT INTO Ticket_Discount (Event_Name, Tic_ID, T_Type, T_Value) VALUES
+USE TEST
+INSERT INTO Ticket_Discount VALUES
 ('Student Night Discount', 1, 'T', 2), 
 ('Student Night Discount', 2, 'T', 2), 
 ('Student Night Discount', 3, 'T', 2), 

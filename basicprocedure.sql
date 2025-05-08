@@ -63,9 +63,9 @@ BEGIN
             BEGIN
                 THROW 50010, 'Phone_number cannot be NULL.', 1;
             END
-            IF @Phone_number < 1000000000 OR @Phone_number > 9999999999
+            IF @Phone_number < 100000000 OR @Phone_number > 999999999
             BEGIN
-                THROW 50011, 'Phone_number must be a 10-digit number.', 1;
+                THROW 50011, 'Phone_number must be a 9-digit number.', 1;
             END
 
             -- Perform INSERT
