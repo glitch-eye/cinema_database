@@ -31,6 +31,9 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="./BookTicket.html">Đặt vé</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="./film.html">Phim</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -52,6 +55,35 @@
                 <label for="endDate" class="form-label">Đến ngày</label>
                 <input type="date" class="form-control" id="endDate" required>
             </div>
+            <div class="col-md-4">
+            <label for="duration" class="form-label">Thời lượng</label>
+            <select class="form-select" id="duration">
+                <option value="">Chọn thời lượng</option>
+                <option value="60">Dưới 1 giờ</option>
+                <option value="120">Dưới 2 giờ</option>
+                <option value="180">Dưới 3 giờ</option>
+                <option value="240">Dưới 4 giờ</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="ageLimit" class="form-label">Loại giới hạn độ tuổi</label>
+            <select class="form-select" id="ageLimit">
+                <option value="">Chọn độ tuổi</option>
+                <option value="G">G (Phim dành cho mọi lứa tuổi)</option>
+                <option value="PG">PG (Phim dành cho khán giả dưới 13 tuổi có sự giám sát)</option>
+                <option value="PG-13">PG-13 (Phim dành cho khán giả dưới 13 tuổi nhưng có một số cảnh nhạy cảm)</option>
+                <option value="R">R (Phim có giới hạn độ tuổi từ 17 trở lên)</option>
+                <option value="NC-17">NC-17 (Phim chỉ dành cho người trưởng thành)</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="sortBy" class="form-label">Sắp xếp theo</label>
+            <select class="form-select" id="sortBy">
+                <option value="">Mặc định</option>
+                <option value="durationAsc">Thời lượng tăng dần</option>
+                <option value="durationDesc">Thời lượng giảm dần</option>
+            </select>
+        </div>
             <div class="col-12">
                 <button type="submit" class="btn btn-primary">Xem lịch chiếu</button>
             </div>
@@ -65,7 +97,7 @@
                 <thead>
                     <tr>
                         <th>Tên phim</th>
-                        <th>Mã rạp</th>
+                        <th>Mã phòng chiếu</th>
                         <th>Tên rạp</th>
                         <th>Ngày chiếu</th>
                         <th>Giờ chiếu</th>
@@ -83,39 +115,49 @@
     <script>
         document.getElementById('scheduleForm').addEventListener('submit', async function (e) {
             e.preventDefault();
-
+    
             const cinemaId = document.getElementById('cinemaId').value;
             const startDate = document.getElementById('startDate').value;
             const endDate = document.getElementById('endDate').value;
-
+            const duration = document.getElementById('duration').value;
+            const ageLimit = document.getElementById('ageLimit').value;
+            const sortBy = document.getElementById('sortBy')?.value; // sortBy có thể không tồn tại
+    
             try {
-                console.log("DEBUG:", { cinemaId, startDate, endDate });
-                const response = await fetch(`http://localhost:3000/api/screenings?cinemaId=${cinemaId}&startDate=${startDate}&endDate=${endDate}`);
+                const params = new URLSearchParams({
+                    cinemaId,
+                    startDate,
+                    endDate
+                });
+    
+                if (duration) params.append("duration", duration);
+                if (ageLimit) params.append("age_restrict", ageLimit);
+                if (sortBy) params.append("sortBy", sortBy);
+    
+                const response = await fetch(`http://localhost:3000/api/screenings?${params.toString()}`);
                 const data = await response.json();
-
+    
                 const resultsBody = document.getElementById('resultsBody');
                 resultsBody.innerHTML = '';
-
+    
                 if (data.error) {
                     resultsBody.innerHTML = `<tr><td colspan="7" class="text-danger">${data.error}</td></tr>`;
                     return;
                 }
-                
+    
                 function formatUTCTo12Hour(timeString) {
                     const date = new Date(timeString);
                     const hours = date.getUTCHours();
                     const minutes = date.getUTCMinutes();
-
                     const ampm = hours >= 12 ? 'PM' : 'AM';
                     const hour12 = hours % 12 || 12;
                     const paddedMinutes = minutes.toString().padStart(2, '0');
-
                     return `${hour12}:${paddedMinutes} ${ampm}`;
                 }
-
+    
                 data.forEach(item => {
                     const screeningDate = new Date(item.Screening_Date).toISOString().split('T')[0];
-
+    
                     const row = `<tr>
                         <td>${item.Movie_Name}</td>
                         <td>${item.Theatre_ID}</td>
@@ -127,7 +169,7 @@
                     </tr>`;
                     resultsBody.innerHTML += row;
                 });
-
+    
             } catch (err) {
                 console.error('Lỗi khi lấy lịch chiếu:', err);
                 document.getElementById('resultsBody').innerHTML = `<tr><td colspan="7" class="text-danger">Lỗi khi gọi API.</td></tr>`;

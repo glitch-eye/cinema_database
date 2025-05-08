@@ -131,7 +131,7 @@ app.get("/api/theatres", async (req, res) => {
 
 app.get("/api/screenings", async (req, res) => {
     console.log(">>> req.query:", req.query);
-    const { cinemaId, startDate, endDate } = req.query;
+    const { cinemaId, startDate, endDate, duration, age_restrict } = req.query;
 
     if (!cinemaId || !startDate || !endDate) {
         return res.status(400).json({ error: "Thiếu tham số cinemaId, startDate hoặc endDate." });
@@ -147,7 +147,33 @@ app.get("/api/screenings", async (req, res) => {
             .input("EndDate", sql.Date, endDate)
             .execute("GetScreeningSchedule");
 
-        res.json(result.recordset);
+        let data = result.recordset;
+
+        // Lọc theo duration nếu có
+        if (duration) {
+            const parsedDuration = parseInt(duration);
+            if (!isNaN(parsedDuration)) {
+                data = data.filter(item => item.Duration < parsedDuration);
+            }
+        }
+
+        // Lọc theo age_restrict nếu có
+        if (req.query.age_restrict) {
+            const ageCode = req.query.age_restrict.trim().toUpperCase();
+            data = data.filter(item => {
+                const itemCode = (item.Age_Restriction || "").trim().toUpperCase();
+                return itemCode === ageCode;
+            });
+        }
+        
+        const sortBy = req.query.sortBy;
+
+        if (sortBy === "durationAsc") {
+            data.sort((a, b) => a.Duration - b.Duration);
+        } else if (sortBy === "durationDesc") {
+            data.sort((a, b) => b.Duration - a.Duration);
+        }
+        res.json(data);
     } catch (err) {
         console.error("Lỗi khi gọi GetScreeningSchedule:", err);
         res.status(500).json({ error: err.message });
@@ -182,6 +208,47 @@ app.post("/api/book-ticket", async (req, res) => {
     } catch (err) {
         console.error("Lỗi khi đặt vé:", err);
         res.status(500).json({ error: err.message });
+    } finally {
+        sql.close();
+    }
+});
+
+app.get("/api/genres", async (req, res) => {
+    try {
+        await sql.connect(config);
+        const result = await sql.query("SELECT G_name, G_Description FROM GENRE");
+        res.json(result.recordset);
+    } catch (err) {
+        console.error("Lỗi khi lấy thể loại:", err);
+        res.status(500).json({ error: "Lỗi khi lấy thể loại" });
+    } finally {
+        sql.close();
+    }
+});
+
+app.get("/api/movies/summary-by-genre", async (req, res) => {
+    const genre = req.query.genre;
+
+    if (!genre) {
+        return res.status(400).json({ error: "Thiếu tên thể loại (genre)" });
+    }
+
+    try {
+        await sql.connect(config);
+        const request = new sql.Request();
+        request.input("GenreName", sql.VarChar(20), genre);
+
+        const result = await request.query(`
+            SELECT * FROM fn_GetMovieReviewSummaryByGenre(@GenreName)
+        `);
+
+        res.json({
+            genre: genre,
+            movies: result.recordset
+        });
+    } catch (err) {
+        console.error("Lỗi khi lấy tổng hợp đánh giá theo thể loại:", err);
+        res.status(500).json({ error: "Lỗi máy chủ khi lấy dữ liệu" });
     } finally {
         sql.close();
     }
