@@ -53,7 +53,8 @@ BEGIN
         END
 
         -- Validate payment method
-        IF @PaymentMethod NOT IN ('C', 'D', 'P') 
+        IF @PaymentMethod NOT IN ('C', 'D', 'P')
+        BEGIN
             THROW 50004, 'Invalid payment method.', 1;
         END
 
