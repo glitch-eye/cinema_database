@@ -1,0 +1,24 @@
+<style>
+    h2, h4, p, form, table {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    #genreForm .form-label,
+    #genreForm .form-select,
+    #genreForm .btn {
+        margin-bottom: 0.5rem;
+    }
+
+    #genreResultSection {
+        margin-top: 1rem;
+    }
+
+    table th, table td {
+        vertical-align: middle;
+    }
+
+    .container {
+        padding-top: 1rem;
+    }
+</style>
