@@ -1,3 +1,5 @@
+USE TEST 
+GO
 CREATE PROCEDURE sp_ManageWUser
     @Operation CHAR(1), -- 'I' = INSERT, 'U' = UPDATE, 'D' = DELETE
     @ID INT,
@@ -117,9 +119,9 @@ BEGIN
             BEGIN
                 THROW 50019, 'Phone_number cannot be NULL.', 1;
             END
-            IF @Phone_number < 1000000000 OR @Phone_number > 9999999999
+            IF @Phone_number < 100000000 OR @Phone_number > 999999999
             BEGIN
-                THROW 50020, 'Phone_number must be a 10-digit number.', 1;
+                THROW 50020, 'Phone_number must be a 9-digit number.', 1;
             END
 
             -- Perform UPDATE

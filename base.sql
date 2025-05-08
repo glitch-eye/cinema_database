@@ -109,7 +109,7 @@ CREATE TABLE Movie_Review(
     Post_Date DATE NOT NULL
     CONSTRAINT fk_mov_rev_u_user FOREIGN KEY(U_ID)
                                     REFERENCES W_USER(ID)
-                                    ON DELETE NO ACTION,
+                                    ON DELETE CASCADE,
     CONSTRAINT fk_mov_rev_u_movie FOREIGN KEY(M_ID)
                                     REFERENCES MOVIE(ID)
                                     ON DELETE CASCADE
