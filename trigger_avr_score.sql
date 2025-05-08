@@ -12,7 +12,7 @@ BEGIN
     UPDATE Movie
     SET Avg_Score = ISNULL((
         SELECT AVG(CAST(Score AS DECIMAL(4, 2)))
-        FROM Movie_review_by_user mr
+        FROM Movie_review mr
         WHERE mr.M_ID = Movie.ID
     ), 0)
     WHERE ID IN (
