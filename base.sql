@@ -17,15 +17,7 @@ CREATE TABLE THEATRE(
                             ON DELETE CASCADE
 )
 
--- INSERT INTO Cinema (ID, C_Name, C_Status, C_location) VALUES
--- (1, 'Central Cineplex', 'Active', 'Downtown'),
--- (2, 'Grand Theatre', 'Active', 'Uptown'),
--- (3, 'Movie World', 'Closed', 'City Center');
 
--- INSERT INTO Theatre (ID, Size_Type, Capacity, C_ID) VALUES
--- (101, 'L', 250, 1),  -- Linked to 'Central Cineplex'
--- (102, 'S', 100, 2),  -- Linked to 'Grand Theatre'
--- (103, 'M', 150, 3);  -- Linked to 'Movie World'
 CREATE TABLE AGE_RESTRICT(
     TAG VARCHAR(5) PRIMARY KEY,
     Age_permit INT NOT NULL
@@ -166,7 +158,7 @@ CREATE TABLE RECEIPT (
     U_ID INT NULL, -- ID from W_USER
     Receipt_Date DATETIME, 
     Method CHAR(1) NOT NULL,
-    Total_Amount DECIMAL(5,2) DEFAULT 0,
+    Total_Amount DECIMAL(10,2) DEFAULT 0,
     CONSTRAINT fk_receipt_user FOREIGN KEY (U_ID)
         REFERENCES W_USER(ID)
         ON DELETE SET NULL
